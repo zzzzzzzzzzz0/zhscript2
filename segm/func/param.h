@@ -9,6 +9,7 @@
 #define SEGM_FUNC_PARAM_H_
 
 #include "../mod.h"
+#include "callex.h"
 
 namespace segm {
 namespace func {
@@ -17,18 +18,17 @@ namespace param {
 using Item2 = unsigned long int;
 using List2 = std::vector<Item2>;
 
-class CallEx {
-public:
-	Result2 r2_;
-	std::function<void(Ret&)> z_ = nullptr;
-};
-
 enum class Typ {
 	Void,
 	Int,
+	UInt,
+	Long,
+	ULong,
 	Char,
 	Chars,
+	CharAddr,
 	Addr,
+	Not,
 
 	IntVal,
 	UIntVal,
@@ -37,6 +37,9 @@ enum class Typ {
 	Buf,
 	Siz,
 	AddrRet,
+	VectorAddr,
+	Ret,
+	Trace,
 	Err,
 	Z,
 	Callback,
@@ -46,7 +49,7 @@ class Item {
 public:
 	Typ typ_;
 	Item(Typ typ) : typ_(typ) {}
-	virtual Result2 z__(Qv &qv, ::segm::List &ls, List2 &ls2, CallEx &ce) {return Ok(true);}
+	virtual Result2 z__(Qv *qv, ::segm::List &ls, List2 &ls2, CallEx &ce) {return Ok(true);}
 };
 
 class IntValItem : Item {

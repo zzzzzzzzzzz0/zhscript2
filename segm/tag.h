@@ -19,9 +19,12 @@ private:
 public:
 	const keyword::Item& kw__() {return keyword::TAG_BEGIN;}
 	const keyword::Item& kw2__() {return keyword::TAG_END;}
+	const keyword::List *power_kw__() {return &All::var_power_kw_;}
 	All* a__() {return &a_;}
 
-	Result2 z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret);
+	bool can_up__() {return false;}
+	Result2 z__(const KwBy& kw_by, Qv *qv, List &ls, Ret &ret);
+	std::string str__();
 
 	static segm::Item *new__() {return (segm::Item*)new Item();}
 };

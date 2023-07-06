@@ -5,68 +5,55 @@
  *      Author: zzzzzzzzzzz
  */
 
+#include "shell.h"
 #include <iostream>
-#include "lib.h"
-#include "is.h"
-#include "util.h"
 #include "debug.h"
 
-void out__(std::initializer_list<const char*> a) {
-	o__(a/*, 'e'*/);
-	o__({R"(\\\\)"}); o_n__();
+void out__(const std::string &s) {
+	o__(0, s, R"(\\\\)"); o_n__();
 }
 
-void z__(std::function<Result2 (Ret&)> fn, bool out_ret) {
-	Ret ret;
-	{
-		Result2 r2 = fn(ret);
-		if(false__(r2)) {
-			if(r2->val_->val_ == IS_EXIT) {
-				const std::string &s = r2->val_->err_;
-				if(s.empty()) {
-					std::exit(0);
-					return;
-				}
-				if(can_stoi__(s)) {
-					std::exit(std::stoi(s));
-					return;
-				}
-			}
-			o__({r2->val_->err_, r2->err_}/*, 'E'*/);
-			o_n__();
-			return;
-		}
+#define ret___ std::vector<std::string>
+
+void z__(std::function<bool(ret___&)> fn, bool out_ret, void* l4) {
+	ret___ ret;
+	if(!fn(ret)) {
+		if(l4_is_end__(l4))
+			std::exit(l4_exit_code__(l4));
+		o__(0, l4_err__(l4));
+		o_n__();
+		std::exit(255);
 	}
-	ret.one__();
 
 	if(out_ret) {
 		o_n__(); o_n__();
-		out__({});
-		for(auto s : ret.a_) {
-			out__({s.val_.c_str()});
+		out__("");
+		for(auto s : ret) {
+			out__(s);
 		}
 	}
 }
 
 int main(int argc, const char **argv) {
-	Lib lib;
-	lib.cmdline_parse__(argc, argv);
-	if(lib.has_src__()) {
-		z__([&](Ret& ret) {
-			return lib.z__(ret);
-		}, debug_.o_ret_);
+	void* l4 = l4_new__();
+	l4_cmdline_parse__(l4, argc, argv);
+	if(l4_has_src__(l4)) {
+		z__([&](ret___& ret) {
+			return l4_jieshi3__(l4, nullptr, &ret);
+		}, debug_.o_ret_, l4);
 	} else {
 		for(;;) {
-			o__({"////"}); o_n__();
+			o__(0, "////"); o_n__();
 			std::string s;
 			std::cin >> s;
 			if(std::cin.eof())
 				break;
-			z__([&](Ret& ret) {
-				return lib.z__(s, ret);
-			}, true);
+			z__([&](ret___& ret) {
+				return l4_jieshi4__(l4, s.c_str(), false, nullptr, nullptr, 0, nullptr, &ret);
+			}, true, l4);
 		}
 	}
-	return 0;
+	//l4_delete__(l4);
+	return l4_exit_code__(l4);
 }
 

@@ -16,6 +16,7 @@ namespace continue2 {
 class Item : for_::Base2 {
 private:
 	int is__() {return IS_CONTINUE2;}
+	const keyword::Item& for__() {return keyword::RANGE;}
 public:
 	const keyword::Item& kw__() {return keyword::CONTINUE2;}
 	static segm::Item *new__() {return (segm::Item*)new Item();}

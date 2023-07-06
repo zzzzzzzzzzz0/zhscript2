@@ -18,7 +18,11 @@ private:
 	bool is_test() {return true;}
 public:
 	const keyword::Item& kw__() {return keyword::HAS;}
+	//下否定 var 又
 	const keyword::Item& kw2__() {return keyword::NO;}
+	bool can_up__() {return true;}
+	Result2 alt__(segm::Item *&item, bool use_en) {return alt2__(item, use_en, true);}
+	//上
 	static segm::Item *new__() {return (segm::Item*)new Item();}
 };
 

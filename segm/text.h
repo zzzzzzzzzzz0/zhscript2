@@ -21,7 +21,7 @@ public:
 	const keyword::Item& kw__() {return keyword::TEXT_BEGIN;}
 	const keyword::Item& kw2__() {return keyword::TEXT_END;}
 
-	Result2 z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret) {
+	Result2 z__(const KwBy& kw_by, Qv *qv, List &ls, Ret &ret) {
 		ret.push__(val_);
 		return Ok(true);
 	}

@@ -16,13 +16,19 @@ namespace block {
 class Item : segm::Item {
 private:
 	All a_;
+	const keyword::List power_kw_ = {&keyword::END};
 public:
 	const keyword::Item& kw__() {return keyword::BEGIN;}
 	const keyword::Item& kw2__() {return keyword::END;}
-	virtual const keyword::List *ret_kw__() {return nullptr;}
+	const keyword::List *power_kw__() {return &power_kw_;}
+	const keyword::List *end_kw__() {return nullptr;}
+	const keyword::List *end_kw_2__() {return nullptr;}
 	All* a__() {return &a_;}
 
-	Result2 z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret) {return a_.z__(kw__(), qv, ls, ret);}
+	Result2 z__(const KwBy& kw_by, Qv *qv, List &ls, Ret &ret) {
+		KwBy kw_by2 {kw__(), &a_, &kw_by};
+		return a_.z__(kw_by2, qv, ls, ret);
+	}
 
 	static segm::Item *new__() {return (segm::Item*)new Item();}
 };

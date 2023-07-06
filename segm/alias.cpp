@@ -10,12 +10,10 @@
 namespace segm {
 namespace alias {
 
-void Item::z_3__(var::Item* v, const Ret_Item& ri) {
-	v->typ_ = 'a';
-
-	auto info = std::make_shared<Info>();
-	info->ret_.a_.push_back(std::move(ri));
-	v->val2_ = info;
+void Item::z3__(var::Item* v, const Ret_Item& ri) {
+	v->val_ = ri.val_;
+	v->tags_ = std::move(ri.tags_);
+	v->typ2_ = Typ2::Alias;
 }
 
 }} /* namespace segm */

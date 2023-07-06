@@ -19,7 +19,7 @@ public:
 	Item1(const keyword::Item* kw) {kw_ = kw;}
 	const keyword::Item& kw__() {return *kw_;}
 
-	Result2 z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret);
+	Result2 z__(const KwBy& kw_by, Qv *qv, List &ls, Ret &ret);
 };
 
 } /* namespace segm */

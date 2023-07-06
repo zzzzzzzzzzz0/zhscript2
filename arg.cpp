@@ -21,8 +21,9 @@ void List::parse__(const std::string& s) {
 	push__(s);
 }
 
-void List::push__(const std::string& s) {
-	a_.push_back(std::make_shared<Item>(Item {val_:s}));
+void List::reset1__() {
+	a_.clear();
+	has_mk_all_ = false;
 }
 
 const std::string& List::all__() {
@@ -33,19 +34,18 @@ const std::string& List::all__() {
 	return all_;
 }
 
-std::string List::mk_all__(List_List a, size_t from, size_t to) {
+std::string List::mk_all__(const std::vector<Item>& a, size_t from, size_t to) {
 	std::string all;
 	size_t len = a.size();
 	if(len > 0) {
 		if(to >= len)
 			to = len - 1;
 		for(size_t i2 = from; i2 <= to; i2++) {
-			auto i = a[i2];
 			if(i2 > from)
 				all += ' ';
 			std::string s;
 			bool b = false;
-			for(auto r : i->val_) {
+			for(auto r : a[i2].val_) {
 				if(!b) {
 					if(!(	(r >= '0' && r <= '9') ||
 							(r >= 'a' && r <= 'z') ||
@@ -65,6 +65,17 @@ std::string List::mk_all__(List_List a, size_t from, size_t to) {
 		}
 	}
 	return all;
+}
+
+bool for_arg_name__(const NameList &names, std::function<bool(const Name&)> fn) {
+	std::vector<::arg::Name> *namels = static_cast<std::vector<::arg::Name>*>(names.get());
+	if(namels) {
+		for(auto name : *namels) {
+			if(fn(name))
+				return true;
+		}
+	}
+	return false;
 }
 
 } /* namespace arg */

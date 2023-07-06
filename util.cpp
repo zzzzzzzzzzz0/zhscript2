@@ -61,6 +61,31 @@ bool can_stoi__(const std::string &s, bool use_minus) {
 	return is;
 }
 
+bool can_stod__(const std::string &s) {
+	bool first = true;
+	int i = 0, i2 = 0;
+	for(auto c : s) {
+		switch(c) {
+		case '+': case '-':
+			if(!first)
+				return false;
+			break;
+		case '.':
+			if(++i2 > 1)
+				return false;
+			break;
+		default:
+			if(!std::isdigit(c))
+				return false;
+			i++;
+			break;
+		}
+		if(first)
+			first = false;
+	}
+	return i;
+}
+
 std::string bad__(unsigned char c) {
 	std::string ret;
 	ret += "非法字符 ";
@@ -70,3 +95,65 @@ std::string bad__(unsigned char c) {
 		ret += "ascii" + std::to_string(c);
 	return ret;
 }
+
+#ifdef ver_no_std_to_string_
+#include <sstream>
+namespace std {
+
+std::string to_string(unsigned char t) {
+	std::ostringstream ss;
+	ss << t;
+	return ss.str();
+}
+std::string to_string(long t) {
+	std::ostringstream ss;
+	ss << t;
+	return ss.str();
+}
+std::string to_string(unsigned long t) {
+	std::ostringstream ss;
+	ss << t;
+	return ss.str();
+}
+std::string to_string(long double t) {
+	std::ostringstream ss;
+	ss << t;
+	return ss.str();
+}
+std::string to_string(int t) {
+	std::ostringstream ss;
+	ss << t;
+	return ss.str();
+}
+std::string to_string(unsigned int t) {
+	std::ostringstream ss;
+	ss << t;
+	return ss.str();
+}
+int stoi(std::string s) {
+	std::istringstream ss(s);
+	int t = 0;
+	ss >> t;
+	return t;
+}
+long double stold(std::string s) {
+	std::istringstream ss(s);
+	long double t = 0;
+	ss >> t;
+	return t;
+}
+long stol(std::string s) {
+	std::istringstream ss(s);
+	long t = 0;
+	ss >> t;
+	return t;
+}
+unsigned long stoul(std::string s) {
+	std::istringstream ss(s);
+	unsigned long t = 0;
+	ss >> t;
+	return t;
+}
+
+}
+#endif

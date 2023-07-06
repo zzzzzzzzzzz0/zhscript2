@@ -16,12 +16,13 @@ namespace range {
 class Item : for_::Base {
 private:
 	bool use_count__() {return false;}
-	Result2 z_2__(segm::Item* item, Qv &qv, List &ls, Ret &ret) {
+	Result2 z_2__(const std::string &name1, size_t count1, KwBy& kw_by, Qv *qv, List &ls, Ret &ret) {
 		for(;;) {
-			Result2 r2 = item->z__(kw__(), qv, ls, ret);
-			if(is__(IS_BREAK2, r2))
+			size_t i2 = from_;
+			Result2 r2 = a_.z7__(kw_by, qv, ls, ret, i2);
+			if(is__(IS_BREAK2, name1, r2))
 				break;
-			if(is__(IS_CONTINUE2, r2))
+			if(is__(IS_CONTINUE2, name1, r2))
 				continue;
 			if(false__(r2))
 				return r2;

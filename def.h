@@ -14,9 +14,11 @@ namespace def {
 
 class Item : public var::Item {
 public:
-	bool is_no_arg_ = false;
-	size_t qian_arg_ = 0;
-	arg::NameList arg_names_;
+	std::string name2_;
+	size_t argc_ = SIZE_MAX, back_arg_ = 0;
+	bool is_through_ = false;
+	arg::NameList arg_names_ = nullptr;
+	std::vector<std::string> dunhao3_;
 };
 
 class List : public var::List {

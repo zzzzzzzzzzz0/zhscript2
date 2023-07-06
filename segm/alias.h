@@ -13,17 +13,13 @@
 namespace segm {
 namespace alias {
 
-class Info : public Sptr {
-public:
-	Ret ret_;
-};
-
 class Item : set::Item {
 private:
-	void z_3__(::var::Item* v, const Ret_Item& ri);
+	void z_3__(::var::Item* v, const Ret_Item& ri) {z3__(v, ri);}
 public:
 	const keyword::Item& kw__() {return keyword::ALIAS;}
 	static segm::Item *new__() {return (segm::Item*)new Item();}
+	static void z3__(::var::Item* v, const Ret_Item& ri);
 };
 
 }} /* namespace segm */

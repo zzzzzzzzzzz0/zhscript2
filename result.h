@@ -13,12 +13,11 @@ class Result {
 public:
 	V val_;
 	E err_;
-
-	static Result* Ok(V val) {
-		return new Result {val_:val};
+	static Result Ok(V val) {
+		return Result {val_:val};
 	}
-	static Result* Err(E err) {
-		return new Result {val_:0, err_:err};
+	static Result Err(E err) {
+		return Result {val_:0, err_:err};
 	}
 };
 

@@ -18,14 +18,15 @@ void Info::free__() {
 	}
 }
 
-Result2 Item::z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret) {
+Result2 Item::z__(const KwBy& kw_by, Qv *qv, List &ls, Ret &ret) {
 	Ret ret2;
 	{
-		Result2 r2 = a_.z__(kw__(), qv, ls, ret2);
+		KwBy kw_by2 {kw__(), &a_, &kw_by};
+		Result2 r2 = a_.z__(kw_by2, qv, ls, ret2);
+		ret2.one__();
 		if(false__(r2))
 			return r2;
 	}
-	ret2.one__();
 
 	std::string err;
 	for(auto s : ret2.a_) {
@@ -38,7 +39,7 @@ Result2 Item::z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret) {
 			err += dlerr;
 		} else {
 			ret.push__(name);
-			ret.push__('l', std::make_shared<Info>(handle));
+			ret.push__(Typ2::Dl, std::make_shared<Info>(handle));
 			return Ok(true);
 		}
 	}

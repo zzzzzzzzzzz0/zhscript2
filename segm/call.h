@@ -9,6 +9,7 @@
 #define SEGM_CALL_H_
 
 #include "all.h"
+#include "func.h"
 
 namespace segm {
 namespace call {
@@ -20,7 +21,8 @@ public:
 	const keyword::Item& kw__() {return keyword::CALL;}
 	All* a__() {return &a_;}
 
-	Result2 z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret);
+	Result2 z__(const KwBy& kw_by, Qv *qv, List &ls, Ret &ret);
+	static Result2 z_2__(func::Info* fi, func::ParamList& fpl2, Ret &ret2, size_t from, const KwBy& kw_by, Qv *qv, List &ls, Ret &ret);
 
 	static segm::Item *new__() {return (segm::Item*)new Item();}
 };

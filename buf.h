@@ -39,6 +39,9 @@ public:
 		val_ += s;
 		add_ = true;
 	}
+	bool empty__() {
+		return val_.empty();
+	}
 };
 
 #endif /* BUF_H_ */

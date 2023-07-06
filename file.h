@@ -21,7 +21,7 @@ public:
 
 	std::string dir__(const std::string& src);
 
-	std::string get_contents__(const std::string& src);
+	void get_contents__(const std::string& src, std::string& body, std::string& head);
 
 	void known_path_add__(const std::string& src) {
 		known_path_.push_back(dir__(src));
@@ -29,8 +29,7 @@ public:
 	void known_path_pop__() {known_path_.pop_back();}
 	void known_path2_add__(const std::string& src);
 	std::string ok_path__(const std::string& src);
+	std::string good_path__(const std::string& src);
 };
-
-extern File file_;
 
 #endif /* FILE_H_ */

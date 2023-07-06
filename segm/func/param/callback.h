@@ -18,8 +18,10 @@ class CallbackItem : Item {
 public:
 	int i_;
 	CallbackItem(int i) : Item(Typ::Callback), i_(i) {}
-	Result2 z__(Qv &qv, ::segm::List &ls, List2 &ls2, CallEx &ce);
+	Result2 z__(Qv *qv, ::segm::List &ls, List2 &ls2, CallEx &ce);
 };
+
+Item2 ex__(int i);
 
 }}} /* namespace segm */
 

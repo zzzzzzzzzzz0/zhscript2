@@ -14,9 +14,12 @@ namespace segm {
 namespace var {
 
 class Base : segm::Item {
+protected:
+	Tag_List tags_;
 public:
 	const keyword::Item& kw__() {return keyword::VAR_BEGIN;}
 	const keyword::Item& kw2__() {return keyword::VAR_END;}
+	const keyword::List *power_kw__() {return &All::var_power_kw_;}
 };
 
 }} /* namespace segm */

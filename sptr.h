@@ -10,6 +10,16 @@
 
 #include <memory>
 
+enum class Typ2 {
+	No,
+	Alias,
+	Dl,
+	Func,
+	Int,
+	UInt,
+	Addr,
+};
+
 class Sptr {};
 
 using Sptr_ = std::shared_ptr<Sptr>;

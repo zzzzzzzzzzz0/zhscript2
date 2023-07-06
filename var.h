@@ -11,14 +11,16 @@
 #include <string>
 #include <vector>
 #include "sptr.h"
+#include "tag.h"
 
 namespace var {
 
 class Item {
 public:
 	std::string name_, val_;
-	bool is_priv_ = false;
-	char typ_ = 0;
+	Tag_List tags_;
+	bool is_priv_ = false, also_val_ = false;
+	Typ2 typ2_ = Typ2::No;
 	Sptr_ val2_;
 };
 

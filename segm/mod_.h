@@ -20,9 +20,10 @@ public:
 	const keyword::Item& kw__() {return keyword::MOD;}
 	All* a__() {return &a_;}
 
-	Result2 z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret);
+	Result2 z__(const KwBy& kw_by, Qv *qv, List &ls, Ret &ret);
 
 	static segm::Item *new__() {return (segm::Item*)new Item();}
+	static void other__(Qv *qv, List &ls);
 };
 
 }} /* namespace segm */

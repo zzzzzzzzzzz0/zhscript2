@@ -14,47 +14,59 @@ namespace args {
 
 #define I2_NONE -2
 
-segm::Item* Item::mk__(const std::string &name, Tag_List& tags) {
+segm::Item* Item::mk__(const std::string &name, bool use_en, Tag_List& tags, bool is_test) {
 	Item *item = nullptr;
 	int i, i2;
-	if(mk_i__(name, i, i2)) {
-		item = new Item(i, i2, tags);
+	if(mk_i__(name, use_en, i, i2)) {
+		item = new Item(i, i2, tags, is_test);
 	}
 	return (segm::Item*)item;
 }
 
-bool Item::mk_i__(const std::string &name, int &i, int &i2) {
-	const std::string& kw = keyword::ARGS;
-	if(name == kw) {
-		i = 0;
-		i2 = I2_NONE;
-		return true;
-	}
-	if(startswith__(name, kw)) {
-		std::string s = name.substr(kw.size());
-		size_t pos = s.find('/');
-		if(pos == std::string::npos) {
-			if(can_stoi__(s, true)) {
-				i = stoi__(s);
-				i2 = I2_NONE;
-				return true;
-			}
-		} else {
-			std::string s2 = s.substr(pos + 1);
-			s = s.substr(0, pos);
-			if(can_stoi__(s, true) && can_stoi__(s2, true)) {
-				i = stoi__(s);
-				i2 = stoi__(s2);
+bool Item::mk_i__(const std::string &name, bool use_en, int &i, int &i2) {
+	auto fn = [&](const keyword::Item& kw) -> bool {
+		if(kw.is__(name, use_en)) {
+			i = 0;
+			i2 = I2_NONE;
+			return true;
+		}
+		size_t kw_len;
+		if(kw.starts__(name, use_en, kw_len)) {
+			std::string s = name.substr(kw_len);
+			size_t pos = s.find('/');
+			if(pos == std::string::npos) {
+				if(can_stoi__(s, true)) {
+					i = stoi__(s);
+					i2 = I2_NONE;
+					return true;
+				}
+			} else {
+				std::string s2 = s.substr(pos + 1);
+				s = s.substr(0, pos);
+				if(s.empty())
+					i = 0;
+				else if(can_stoi__(s, true))
+					i = stoi__(s);
+				else
+					return false;
+				if(can_stoi__(s2, true))
+					i2 = stoi__(s2);
+				else
+					return false;
 				if(i != -1 && i2 != -1)
 					return true;
 			}
 		}
-	}
+		return false;
+	};
+	if(fn(keyword::ARGS))
+		return true;
 	return false;
 }
 
 std::string Item::s__() {
 	std::string s;
+	if(!is_test_)
 	s += kw__();
 	s += keyword::ARGS;
 	if(i_ != 0 || i2_ != I2_NONE)
@@ -66,6 +78,7 @@ std::string Item::s__() {
 	for(auto i : tags_) {
 		s += keyword::TAG_BEGIN + i + keyword::TAG_END;
 	}
+	if(!is_test_)
 	s += kw2__();
 	return s;
 }
@@ -77,7 +90,7 @@ std::string Item::itos__(int i) {
 	return std::to_string(i + 1);
 }
 
-void Item::z2__(int i1, int i2, const keyword::Item& kw_by, Qv *qv2, List &ls, Ret &ret) {
+void Item::z2__(int i1, int i2, const KwBy& kw_by, Qv *qv2, List &ls, Ret &ret) {
 	::arg::List* args = qv2->args_;
 	int len = args->a_.size();
 	if(i1 < 0) {
@@ -93,7 +106,7 @@ void Item::z2__(int i1, int i2, const keyword::Item& kw_by, Qv *qv2, List &ls, R
 		ret.push2__(-1);
 		return;
 	}
-	switch(kw_by) {
+	switch(kw_by.kw_) {
 	case keyword::Id::Print: case keyword::Id::Exec:
 		if(i1 == 0 && i2 == I2_NONE)
 			ret.push__(args->all__());
@@ -102,7 +115,7 @@ void Item::z2__(int i1, int i2, const keyword::Item& kw_by, Qv *qv2, List &ls, R
 		break;
 	default:
 		for(int i = i1; i <= i2; i++) {
-			ret.push__(args->a_[i]->val_);
+			ret.push__(args->a_[i]);
 			if(i < i2)
 				ret.one__();
 		}
@@ -110,12 +123,20 @@ void Item::z2__(int i1, int i2, const keyword::Item& kw_by, Qv *qv2, List &ls, R
 	}
 }
 
-Result2 Item::z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret) {
-	Qv *qv2 = &qv;
-	Result2 r2 = qv4tags__(tags_, ls, qv2->mods_, nullptr, qv2);
+Result2 Item::z__(const KwBy& kw_by, Qv *qv, List &ls, Ret &ret) {
+	Qv *qv2 = qv;
+	bool badtag = false;
+	Result2 r2 = qv4tags__(tags_, qv->args_->use_en_, ls, qv2->mods_, [&](const std::string &s) {
+		badtag = true;
+		return false;
+	}, &qv2, is_test_);
 	if(false__(r2))
 		return r2;
-	z2__(i_, i2_, kw_by, qv2, ls, ret);
+	if(is_test_) {
+		if(!badtag)
+			ret.push__("1");
+	} else
+		z2__(i_, i2_, kw_by, qv2, ls, ret);
 	return Ok(true);
 }
 

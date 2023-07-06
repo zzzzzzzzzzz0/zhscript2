@@ -13,9 +13,11 @@
 namespace segm {
 namespace exit {
 
-class Item : for_::Base2 {
+class Item : public for_::Base2 {
 private:
 	int is__() {return IS_EXIT;}
+	const keyword::Item& for__() {return keyword::NO;}
+	void z_2__(const std::string &name, const KwBy& kw_by, List &ls, bool &is_true);
 public:
 	const keyword::Item& kw__() {return keyword::EXIT;}
 	static segm::Item *new__() {return (segm::Item*)new Item();}

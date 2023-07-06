@@ -8,21 +8,26 @@
 #ifndef LIB_H_
 #define LIB_H_
 
-#include "qv.h"
-#include "ret.h"
-#include "result2.h"
+#include "segm/mod.h"
+#include "clpars.h"
 
 class Lib {
 private:
 	arg::List args_;
-	bool all_is_param_ = false;
+	segm::List ls_;
+	Clpars clpars_;
 public:
-	void cmdline_parse__(int argc, const char** argv);
-	void cmdline_parse__(const std::string& s);
-	void cmdline_parse2__(const std::string& s);
+	Lib();
+
+	void cmdline_parse__(int argc, const char** argv, int from);
+	void cmdline_parse__(const std::string& s) {clpars_.z__(s, args_);}
+	void set_path__(const char* s) {ls_.file_.known_path2_add__(s);}
 	bool has_src__() {return !args_.src_.empty();}
-	Result2 z__(Ret &ret);
-	Result2 z__(const std::string &s, Ret &ret);
+
+	arg::List *args__() {return &args_;}
+	segm::List *ls__() {return &ls_;}
+
+	Qv* new_main_qu__();
 };
 
 #endif /* LIB_H_ */

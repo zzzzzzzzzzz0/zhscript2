@@ -9,21 +9,26 @@
 
 namespace segm {
 
-Result2 Item1::z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret) {
+Result2 Item1::z__(const KwBy& kw_by, Qv *qv, List &ls, Ret &ret) {
 	switch(*kw_) {
-	case keyword::Id::Dunhao:
-		ret.one__(false);
-		ret.push2__(1);
+	case keyword::Id::Juhao:
+	case keyword::Id::Douhao:
+		for_kwby__(kw_by, [&](const keyword::Item& kw) {
+			if(kw == keyword::Id::With) {
+				ret.one__();
+				return true;
+			}
+			return false;
+		});
 		break;
-	case keyword::Id::Lf : ret.push__("\n"); break;
-	case keyword::Id::Cr : ret.push__("\r"); break;
-	case keyword::Id::Tab: ret.push__("\t"); break;
-	case keyword::Id::Esc: ret.push__("\x1b"); break;
-	case keyword::Id::Maohao:
-	{
-		int debug_liucheng = 1;
-	}
-	default: break;
+	case keyword::Id::Dunhao:
+		ret.dunhao__();
+		break;
+	default:
+		break;
+	case keyword::Id::DebugPoint: {
+		bool o_X_o = true;
+		break; }
 	}
 	return Ok(true);
 }

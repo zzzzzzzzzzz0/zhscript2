@@ -15,7 +15,7 @@ namespace def {
 
 class Item : set::Item {
 private:
-	Result2 z_2__(Ret &ret2, Ret &ret3, Qv &qv, List &ls);
+	Result2 z_2__(Ret &ret2, Ret &ret3, const KwBy& kw_by, Qv *qv, List &ls, Ret &ret);
 public:
 	const keyword::Item& kw__() {return keyword::DEF;}
 	static segm::Item *new__() {return (segm::Item*)new Item();}

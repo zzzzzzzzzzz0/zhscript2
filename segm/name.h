@@ -20,7 +20,7 @@ public:
 	const keyword::Item& kw__() {return keyword::NAME;}
 	All* a__() {return &a_;}
 
-	Result2 z__(const keyword::Item& kw_by, Qv &qv, List &ls, Ret &ret);
+	Result2 z__(const KwBy& kw_by, Qv *qv, List &ls, Ret &ret);
 
 	static segm::Item *new__() {return (segm::Item*)new Item();}
 };
